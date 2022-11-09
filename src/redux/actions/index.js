@@ -10,8 +10,8 @@ export const COUNTRIES_FILTER_CONTINENT = 'COUNTRIES_FILTER_CONTINENT';
 export const COUNTRIES_FILTER_ACTIVITY = 'COUNTRIES_FILTER_ACTIVITY';
 
 
-
-export const URL = 'http://localhost:3001/';
+export const URL = 'https://kind-cyan-bighorn-sheep-fez.cyclic.app/';
+// export const URL = 'http://localhost:3001/';
 
 export const getCountries = (name) => {
   return function(dispatch) {
