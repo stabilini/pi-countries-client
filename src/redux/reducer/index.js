@@ -5,7 +5,6 @@ import {
   CREATE_ACTIVITY,
   COUNTRIES_ORDER_ASC,
   COUNTRIES_ORDER_DES,
-  COUNTRIES_ORDER_RANDOM,
   COUNTRIES_FILTER_CONTINENT,
   COUNTRIES_FILTER_ACTIVITY,
   SET_PAGE_VIEW,
@@ -28,7 +27,7 @@ const initialState = {
     'North America': true,
   },
   page: 1,
-  order: { asc: 'name'},
+  order: {},
   theme: 'Light'
 };
 
@@ -63,29 +62,25 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         order: {asc: action.payload},
+        countries: state.countries.slice().sort((a, b) => a[action.payload] > b[action.payload] ? 1 : -1)
       }
     case COUNTRIES_ORDER_DES:
       return {
         ...state,
         order: {desc: action.payload},
-      }
-    case COUNTRIES_ORDER_RANDOM:
-      return {
-        ...state,
-        order: { },
-        countries: state.countries.slice().sort(() => Math.random() - 0.5),
+        countries: state.countries.slice().sort((a, b) => a[action.payload] < b[action.payload] ? 1 : -1)
       }
     case COUNTRIES_FILTER_CONTINENT:
+      let keys_c = Object.keys(action.payload).filter(k => action.payload[k] === true)
       return {
         ...state,
-        countries: state.countries.map(c => c),
-        filterContinent: action.payload
+        countries: state.countries.map(c => keys_c.includes(c.continent) ? {...c, c_visible: true} : {...c, c_visible: false})
       }
     case COUNTRIES_FILTER_ACTIVITY:
+      let keys_a = Object.keys(action.payload).filter(k => action.payload[k] === true)
       return {
         ...state,
-       countries: state.countries.map(c => c),
-       filterActivity: action.payload
+       countries: state.countries.map(c => c.activities.some(obj => keys_a.includes(obj.name)) ? {...c, a_visible: true} : {...c, a_visible: false})
       }
     case SET_PAGE_VIEW:
       return {

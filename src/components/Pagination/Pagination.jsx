@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { setPageView } from '../../redux/actions';
 
 import styles from './Pagination.module.css'
-
 
 const stripedPagination = (totalPages, currentPage, maxPages) => {
   let startPage, endPage;
@@ -38,18 +37,11 @@ const Pagination = () => {
   const [shownPages, setShownPages] = useState([2,3,4,5,6]);
 
   const dispatch = useDispatch();
-
   const countries = useSelector(state => state.countries);
-  const continents = useSelector(state => state.filterContinent);
-  const activities = useSelector(state => state.filterActivity);
+  const page = useSelector(state => state.page); // para luego ver mediante CSS en que pagina estoy
   const theme = useSelector(state => state.theme);
-  const page = useSelector(state => state.page);
 
-  let keys_c = Object.keys(continents).filter(k => continents[k] === true)
-  let keys_a = Object.keys(activities).filter(k => activities[k] === true)
-
-  const visibles = countries.filter(c => keys_c.includes(c.continent) && c.activities.some(obj => keys_a.includes(obj.name))).length
-
+  const visibles = countries.filter(pais => pais.c_visible && pais.a_visible).length;
   const pages = Math.ceil((visibles - 9) / 10) + 1;
   const maxPages = 5;
 
@@ -85,25 +77,25 @@ const Pagination = () => {
         {
           [...Array(pages).keys()].map(i => (
             <button onClick={handleInputChange} name={i+1} key={i+1} value={i+1}
-                    className={page === i+1 ? `${styles.actualPage} ${styles[theme]}` : `${styles.normalPage} ${styles[theme]}`}>{i+1}</button>
+                    className={page === i+1 ? styles.actualPage : styles.normalPage}>{i+1}</button>
           ))
         }
         </>
         :
         <>
           <button onClick={handleInputChange} name={1} key={1} value={1}
-                  className={page === 1 ? `${styles.actualPage} ${styles[theme]}` : `${styles.normalPage} ${styles[theme]}`}>1</button>
+                  className={page === 1 ? styles.actualPage : styles.normalPage}>1</button>
           { shownPages[0] > 2 ? <> ... </> : null }
-          { shownPages[0] > 6 ? <span className={ `${styles.hideSkipPage}` }><button className={ `${styles.skipPage} ${styles[theme]}` } onClick={handleInputLess} name='less' value='-5'>-5</button> ... </span> : null}
+          { shownPages[0] > 6 ? <span className={ styles.hideSkipPage }><button className={ styles.skipPage } onClick={handleInputLess} name='less' value='-5'>-5</button> ... </span> : null}
           { shownPages.map(i => (
-                <button onClick={handleInputChange} name={i} key={i} value={i}  className={page === i ? `${styles.actualPage} ${styles[theme]}` : `${styles.normalPage} ${styles[theme]}`}>{i}</button>
+                <button onClick={handleInputChange} name={i} key={i} value={i}  className={page === i ? styles.actualPage : styles.normalPage}>{i}</button>
               )
             )
           }
-          { shownPages[shownPages.length-1] < pages - 5 ? <span className={ `${styles.hideSkipPage}` }> ... <button className={ `${styles.skipPage} ${styles[theme]}` } onClick={handleInputMore} name='more' value='+5'>+5</button></span> : null}
+          { shownPages[shownPages.length-1] < pages - 5 ? <span className={ styles.hideSkipPage }> ... <button className={ styles.skipPage } onClick={handleInputMore} name='more' value='+5'>+5</button></span> : null}
           { shownPages[shownPages.length-1] < pages - 1 ? <> ... </> : null }
           <button onClick={handleInputChange} name={pages} key={pages} value={pages}
-                  className={page === pages ? `${styles.actualPage} ${styles[theme]}` : `${styles.normalPage} ${styles[theme]}`}>{pages}</button>
+                  className={page === pages ? styles.actualPage : styles.normalPage}>{pages}</button>
         </>
         }
         {/* <div className={ styles.hide }>Pages: {pages} - Actual page: {page}</div> */}
