@@ -1,11 +1,15 @@
-import { getCountries, setTheme } from '../../redux/actions';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+
+import { getCountries } from '../../redux/actions';
+
+import logo from '../../assets/logo-globe.png';
+import SelectTheme from '../SelectTheme/SelectTheme';
+import Button from '../Button/Button';
+import Input from '../Input/Input';
 
 import styles from './NavBar.module.css';
-import logo from '../../assets/logo-globe.png';
 
 function NavBar() {
   const useQuery = () => new URLSearchParams(useLocation().search);
@@ -28,23 +32,8 @@ function NavBar() {
     dispatch(getCountries(input));
   };
 
-  const useEnter = e => {
-    if (e.keyCode === 13) {
-      e.preventDefault();
-      //no conviene usar el siguiente dispatch porque llama al back, pero el readme del PI pide que se use la ruta con query
-      dispatch(getCountries(input));
-    }
-  };
-
-  // MEJORAR ESTO, QUE SEA UN INPUT SELECT CON VARIAS OPCIONES DE TEMAS
-  const toggleTheme = e => {
-    e.preventDefault();
-    dispatch(setTheme(e.target.value));
-  };
-
   useEffect(() => {
     if (name) setInput(name);
-    
   }, [name]);
 
   return (
@@ -54,33 +43,20 @@ function NavBar() {
       </div>
       <div className={ styles.centerContainer }>
         <div className={ styles.center }>
-          <input
-            type="text"
+          <Input
+            label=''
+            type='text'
+            name='name'
             placeholder="Type text..."
-            size="10"
-            onChange={handleInputChange}
             value={input}
-            onKeyUp={useEnter}
-          />
-          <button onClick={handleSubmit} className={ `${styles.button} ${styles[theme]}` }>
-            Search
-          </button>
+            onChange={handleInputChange} />
+          <Button text='Search' onClick={handleSubmit} />
         </div>
-          <Link to="/newactivity">
-            <button className={ `${styles.button} ${styles[theme]}` }>Create activity</button>
-          </Link>
+          <Button link='/newactivity' text='Create activity' />
       </div>
       <div className={ styles.exitContainer }>
-        <select  className={ `${styles.button} ${styles[theme]}` } name="theme" id="theme" onChange={toggleTheme} value={theme}>
-          <option value="Light">Light</option>
-          <option value="Dark">Dark</option>
-          {/* <option value="Retro">Retro</option> */}
-          <option value="Zen">Zen</option>
-          <option value="Comp">Comp</option>
-        </select>
-        <Link to="/">
-          <button className={ `${styles.button} ${styles[theme]}` }>Exit</button>
-        </Link>
+        <SelectTheme />
+        <Button link='/' text='Exit' />
       </div>
     </div>
   );

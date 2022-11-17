@@ -1,9 +1,13 @@
 import React, { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+
 import { getDetail } from '../../redux/actions';
 
+import Button from '../Button/Button';
+
 import styles from './Detail.module.css';
+
 
 const Detail = () => {
   const { id } = useParams();
@@ -85,9 +89,7 @@ const Detail = () => {
           </div>
           )
         }
-          <Link to="/countries">
-            <button className={ `${styles.button} ${styles[theme]}` }>Back to list</button>
-          </Link> 
+          <Button link='/countries' text='Back to list' />
         </span>
       </div>
     </>

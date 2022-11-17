@@ -1,8 +1,12 @@
-import React, { Fragment, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState  } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
+
 import { createActivity, getCountries } from '../../redux/actions';
+
+import Button from '../Button/Button';
+import Checkbox from '../Checkbox/Checkbox';
+import RadioButton from '../RadioButton/RadioButton';
+import Input from '../Input/Input';
 
 import styles from './CreateActivity.module.css';
 
@@ -102,12 +106,7 @@ const CreateActivity = () => {
       <div className={ styles.container }>
         <form className={ `${styles.form} ${styles[theme]}` }>
           <div className={ styles.section }>
-            <label>Activity name:</label>
-            <input
-              type="text"
-              name="name"
-              value={input.name}
-              onChange={handleInputChange}/>
+            <Input label='Activity name:' type='text' name='name' value={input.name} onChange={handleInputChange} />
           </div>
           { errors.name ? 
             <div className={ `${styles.error} ${styles[theme]}` }>{errors.name}</div>
@@ -115,27 +114,19 @@ const CreateActivity = () => {
             <div className={ styles.noerror }></div>
           }
           <div className={ styles.section }>
-            <label>Skill:</label>
-            {
-              [1,2,3,4,5].map(i => (
-                <Fragment key={i}>
-                  <input type="radio" id={i} name="skill" value={i}
-                  onChange={handleInputChange} checked={i === +input.skill ? true : false }/>
-                  <label>{i}</label>
-                </Fragment>
-              ))
-            }
+            <div className={ styles.skillLabel }>
+              <label>Skill:</label>
+            </div>
+            <div className={ styles.skill }>
+              {
+                [1,2,3,4,5].map(i => (
+                  <RadioButton key={i} name='skill' value={i} onChange={handleInputChange} defaultChecked={i === +input.skill ? true : false } />
+                ))
+              }
+            </div>
           </div>
           <div className={ styles.section }>
-            <label>Duration:</label>
-            <input
-              className={ styles.numberInput }
-              type="number"
-              maxLength="4"
-              name="duration"
-              id="duration"
-              value={input.duration}
-              onChange={handleInputChange} /> days.
+            <Input label='Duration:' type='number' name='duration' value={input.duration} onChange={handleInputChange} /> days.
           </div>
           { errors.duration ? 
             <div className={ `${styles.error} ${styles[theme]}` }>{errors.duration}</div>
@@ -143,7 +134,7 @@ const CreateActivity = () => {
             <div className={ styles.noerror }></div>
           }
           <div className={ styles.section }>
-            <label>Season:</label>
+            <label className={ styles.label }>Season:</label>
             <select name="season" id="season" onChange={handleInputChange}>
               <option value="Winter">Winter</option>
               <option value="Spring">Spring</option>
@@ -152,16 +143,9 @@ const CreateActivity = () => {
             </select>
           </div>
           <div className={ styles.section }>
-            <label>Select countries:</label>
-            <input
-              type="text"
-              name="country"
-              id="country"
-              value={input.country}
-              onChange={handleInputChange}
-            />
+            <Input label='Select countries:' type='text' name='country' value={input.country} onChange={handleInputChange} />
             <div className={ `${styles.box} ${styles[theme]}` }>
-              <ol>
+              <ol className={ `${styles.orderedList} ${styles[theme]}` }>
                 {countries
                   .sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0))
                   .filter(country =>
@@ -169,14 +153,7 @@ const CreateActivity = () => {
                   )
                   .map(country => (
                     <li key={country.id}>
-                      <input
-                        type="checkbox"
-                        name={country.id}
-                        id={country.id}
-                        onChange={handleInputCountries}
-                        checked={input.countries.includes(country.id) ? true : false}
-                      />
-                      {country.name}
+                      <Checkbox text={country.name} onChange={handleInputCountries} defaultChecked={input.countries.includes(country.id) ? true : false} />
                     </li>
                   ))}
               </ol>
@@ -189,10 +166,14 @@ const CreateActivity = () => {
             <div className={ styles.noerror }></div>
           }
           <div className={ styles.section }>
-            <button onClick={handleSubmit} className={ `${styles.button} ${styles[theme]}` } disabled={!input.name || !input.duration || errors.name || errors.duration || input.countries.length === 0 ? true : false}>Create activity</button>
-            <Link to="/countries">
-              <button className={ `${styles.button} ${styles[theme]}` }>Back to list</button>
-            </Link>
+          {
+            !input.name || !input.duration || errors.name || errors.duration || input.countries.length === 0
+            ?
+            <Button text='Create activity' disabled={ true } />
+            :
+            <Button onClick={handleSubmit} text='Create activity' />
+          }
+            <Button link='/countries' text='Back to list' />
           </div>
         </form>
       </div>
