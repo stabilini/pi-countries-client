@@ -1,23 +1,25 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+
 import styles from './Country.module.css';
 
 const Country = props => {
-  //let actividades = props.activities.map(a => a.name);
-
+  const theme = useSelector(state => state.theme);
+  
   return (
-    <div key={props.id} className={ styles.country }>
-      <img
-        src={props.flag}
-        alt={`imagen de ${props.name}`}
-        className={ styles.flag }
-      />
-      <h3>{props.name}</h3>
-      <h4>{props.continent}</h4>
-      {/* <p>{actividades}</p> */}
+    <div key={props.id} className={ `${styles.container} ${styles[theme]}` }>
       <Link to={`/countries/${props.id}`}>
-        <button>Detail</button>
+        <img
+          src={props.flag}
+          alt={`Flag from ${props.name}`}
+          className={ `${styles.flag} ${styles[theme]}` }
+        />
       </Link>
+      <div className={ styles.infoSection }>
+        <div className={ styles.title }>{props.name}</div>
+        <div className={ styles.subTitle }>{props.continent}</div>
+      </div>
     </div>
   );
 };

@@ -1,16 +1,22 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { filtrarPaises, getFilterActivities } from '../../redux/actions';
+
+import { filterBy, getFilterActivities } from '../../redux/actions';
+
+import Checkbox from '../Checkbox/Checkbox';
+
 import styles from './FilterActivity.module.css'
 
+
 const FilterContinent = () => {
-  let activities = useSelector(state => state.filterActivity);
+  const activities = useSelector(state => state.filterActivity);
+  const theme = useSelector(state => state.theme);
 
   const dispatch = useDispatch();
 
   const handleInputChange = e => {
     activities[e.target.name] = e.target.checked;
-    dispatch(filtrarPaises('activities', activities));
+    dispatch(filterBy('activities', activities));
   };
 
   useEffect(() => {
@@ -18,35 +24,15 @@ const FilterContinent = () => {
   }, [dispatch]);
 
   return (
-    <div className={ styles.filteractivity }>
+    <div className={ `${styles.container} ${styles[theme]}` }>
       <div className={ styles.title }>
-        Activities 
+        Activity 
       </div>
       {Object.keys(activities).map(act => (
         <div key={act}>
-          <input
-            type="checkbox"
-            onChange={handleInputChange}
-            name={act}
-            defaultChecked={activities[act]}
-          />
-          {act}
+          <Checkbox text={act} onChange={handleInputChange} defaultChecked={activities[act]} />
         </div>
       ))}
-      
-      {/* <ul>
-        {Object.keys(activities).map(act => (
-          <li key={act}>
-            <input
-              type="checkbox"
-              onChange={handleInputChange}
-              name={act}
-              defaultChecked={activities[act]}
-            />
-            {act}
-          </li>
-        ))}
-      </ul> */}
     </div>
   );
 };

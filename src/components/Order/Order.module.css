@@ -1,26 +1,113 @@
-.order{
-  background: rgba(255, 0, 0, 0.25);
-  border-radius: 15px;
-  border: 2px solid red;
-  margin: 4px;
-  padding: 2px;
-  width: 100%;
+@import '../../themes.css'; 
+
+.Light {
+  background: var(--Light-order-background-color);
+  border: 2px solid var(--Light-order-border-color);
+  color: var(--Light-order-text-color);
 }
 
-.order button {
-  margin-left: 2px;
-  margin-bottom: 2px;
-  min-width: 50px;
+.Dark {
+  background: var(--Dark-order-background-color);
+  border: 2px solid var(--Dark-order-border-color);
+  color: var(--Dark-order-text-color);
+}
+
+.Zen {
+  background: var(--Zen-order-background-color);
+  border: 2px solid var(--Zen-order-border-color);
+  color: var(--Zen-order-text-color);
+}
+
+.Comp {
+  background: var(--Comp-order-background-color);
+  border: 2px solid var(--Comp-order-border-color);
+  color: var(--Comp-order-text-color);
+}
+
+.container{
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 15px;
 }
   
 .title {
   font-family: 'Courier New', Courier, monospace;
+  text-decoration: underline;
   font-weight: bold;
-  text-align: center;
+  min-width: 45px;
 }
 
-.buttons {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+@media (max-width: 599px) {
+  .container {
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 5px;
+  }
+  .buttonsGroup {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+  
+  }
+  .buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  .large {
+    display: none;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 999px) {
+  .container {
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 5px;
+  }
+  .buttonsGroup {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+  
+  }
+  .buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .large {
+    display: none;
+  }
+}
+
+@media (min-width: 1000px) {
+  .container {
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 5px;
+  }
+  .buttonsGroup {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+  
+  }
+  .buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .small {
+    display: none;
+  }
 }

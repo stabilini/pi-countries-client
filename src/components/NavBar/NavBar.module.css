@@ -1,22 +1,25 @@
-@media (max-width: 499px) {
-  .logoContainer {
-    display: none;
-  }
+@import '../../themes.css'; 
+
+.Light {
+  background: var(--Light-background-color);
 }
 
-@media (min-width: 500px) {
-  .logoContainer {
-    width: 90px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+.Dark {
+  background: var(--Dark-background-color)
+}
+
+.Zen {
+  background: var(--Zen-background-color)
+}
+
+.Comp {
+  background: var(--Comp-background-color)
 }
 
 .container {
-  background: rgba(0, 0, 0, 0.25);
-  padding: 4px;
+  padding: 5px;
   display: flex;
+  height: 100%;
 }
 
 .container button {
@@ -32,26 +35,47 @@
   height: 64px;
 }
 
-
-.center {
+.centerContainer {
   width: 100%;
+  min-width: 200px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
 }
 
-.subcenter {
+.center {
   display: flex;
   align-items: center;
   justify-content: center;
-  
-  
 }
 
-.exit {
-  width: 80px;
+.exitContainer {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+}
+
+@media (max-width: 599px) {
+  .logoContainer {
+    display: none;
+  }
+  .exitContainer {
+    width: 160px;
+    
+  }
+}
+
+@media (min-width: 600px) {
+  .logoContainer {
+    width: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .exitContainer {
+    width: 260px;
+    
+  }
 }

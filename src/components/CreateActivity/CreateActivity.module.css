@@ -1,27 +1,254 @@
-.box{
-  height: 220px;
-  overflow: scroll;
-  text-align: left;
-  border: 1px solid black;
-  margin: 10px
-}
+@import '../../themes.css'; 
 
 .container {
+  display: flex;
+  justify-content: center;
+  margin-top: -100vh;
+}
+
+.form {
   text-align: center;
-  border: 2px solid black;
   border-radius: 15px;
-  width: 50%;
-  margin-left: 25%;
-  margin-top: 5%;
+  width: 85%;
+  margin-top: 4vh;
   max-width: 500px;
-  min-width: 300px;
+  min-width: 260px;
+}
+
+.form.Light {
+  background: var(--Light-create-background-color);
+  border: 2px solid var(--Light-create-border-color);
+  box-shadow:
+    0 0 0 3px var(--Light-create-shadow1-color),
+    0 0 0 5px var(--Light-create-shadow2-color);
+  color: var(--Light-create-text-color);
+}
+
+.form.Dark {
+  background: var(--Dark-create-background-color);
+  border: 2px solid var(--Dark-create-border-color);
+  box-shadow:
+    0 0 0 3px var(--Dark-create-shadow1-color),
+    0 0 0 5px var(--Dark-create-shadow2-color);
+  color: var(--Dark-create-text-color);
+}
+
+.form.Zen {
+  background: var(--Zen-create-background-color);
+  border: 2px solid var(--Zen-create-border-color);
+  box-shadow:
+    0 0 0 3px var(--Zen-create-shadow1-color),
+    0 0 0 5px var(--Zen-create-shadow2-color);
+  color: var(--Zen-create-text-color);
+}
+
+.form.Comp {
+  background: var(--Comp-create-background-color);
+  border: 2px solid var(--Comp-create-border-color);
+  box-shadow:
+    0 0 0 3px var(--Comp-create-shadow1-color),
+    0 0 0 5px var(--Comp-create-shadow2-color);
+  color: var(--Comp-create-text-color);
 }
 
 .section {
   margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.skill {
+  display: flex;
+  margin-left: -12px;
+  align-items: center;
+  justify-content: center;
+}
+
+.label {
+  margin-right: 4px;
+}
+
+.skillLabel {
+  margin-right: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.orderedList.Light {
+  color: var(--Light-ordered-list-color);
+}
+
+.orderedList.Dark {
+  color: var(--Dark-ordered-list-color);
+}
+
+.orderedList.Zen {
+  color: var(--Zen-ordered-list-color);
+}
+
+.orderedList.Comp {
+  color: var(--Comp-ordered-list-color);
+}
+/*
+.section input {
+  margin-right: 3px;
+}
+
+.numberInput {
+  width: 50px;
+}
+
+.input:focus {
+  border: 2px solid red;
+  outline: none;
+} */
+
+.box{
+  height: 200px;
+  width: 100%;
+  overflow: auto;
+  text-align: left;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  padding-left: 12px;
+  margin: 10px;
+}
+
+.box.Light {
+  color: var(--Light-create-box-container-bgcolor);
+  border: 1px solid var(--Light-create-box-container-bgcolor);
+  background:
+    radial-gradient(
+      circle,
+      var(--Light-create-box-container-gradient1) 0%,
+      var(--Light-create-box-container-gradient2) 100%
+      );
+}
+
+.box.Dark {
+  color: var(--Dark-create-box-container-bgcolor);
+  border: 1px solid var(--Dark-create-box-container-bgcolor);
+  background:
+    radial-gradient(
+      circle,
+      var(--Dark-create-box-container-gradient1) 0%,
+      var(--Dark-create-box-container-gradient2) 100%
+      );
+}
+
+.box.Zen {
+  color: var(--Zen-create-box-container-bgcolor);
+  border: 1px solid var(--Zen-create-box-container-bgcolor);
+  background:
+    radial-gradient(
+      circle,
+      var(--Zen-create-box-container-gradient1) 0%,
+      var(--Zen-create-box-container-gradient2) 100%
+      );
+}
+
+.box.Comp {
+  color: var(--Comp-create-box-container-bgcolor);
+  border: 1px solid var(--Comp-create-box-container-bgcolor);
+  background:
+    radial-gradient(
+      circle,
+      var(--Comp-create-box-container-gradient1) 0%,
+      var(--Comp-create-box-container-gradient2) 100%
+      );
 }
 
 .error {
-  color: red;
-  font-size: 0.7em;
+  border: 1px solid black;
+  margin-top: 2px;
+  margin-bottom: 4px;
+  padding: 1px 5px 1px 5px;
+  font-size: 0.75em;
+}
+
+.error.Light {
+  color: var(--Light-create-error-color);
+  background: var(--Light-create-error-bgcolor);
+}
+
+.error.Dark {
+  color: var(--Dark-create-error-color);
+  background: var(--Dark-create-error-bgcolor);
+}
+
+.error.Zen {
+  color: var(--Zen-create-error-color);
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 0) 40px,
+    rgba(0, 0, 0, 0) 50px,
+    var(--Zen-create-error-bgcolor) 10px,
+    var(--Zen-create-error-bgcolor) 60px
+  );
+}
+
+.error.Comp {
+  color: var(--Comp-create-error-color);
+  background: var(--Comp-create-error-bgcolor);
+}
+
+.noerror {
+  margin-top: 2px;
+  margin-bottom: 4px;
+  padding: 1px 5px 1px 5px;
+  height: 1.15em;
+}
+
+.createActivityBackground {
+  height: 100vh;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.createActivityBackground.Light {
+  background: var(--Light-create-background) repeat-x;
+  animation-name: slide;
+}
+
+.createActivityBackground.Dark {
+  background: var(--Dark-create-background) repeat-x;
+  animation-name: slide;
+}
+
+/* .createActivityBackground.Zen {
+  background: var(--Zen-create-background) repeat-x;
+}
+
+.createActivityBackground.Comp {
+  background: var(--Comp-create-background) repeat-x;
+} */
+
+@media (max-width: 349px) {
+  .createActivityBackground{
+    animation-duration: 70s;
+  }
+}
+
+@media (min-width: 350px) and (max-width: 899px){
+  .createActivityBackground{
+    animation-duration: 50s;
+  }
+}
+
+@media (min-width: 900px) {
+  .createActivityBackground{
+    animation-duration: 30s;
+  }
+}
+
+@keyframes slide {
+  from {
+    background-position: 0% 0%;
+  }
+  to {
+    background-position: 100% 0%;
+  }
 }

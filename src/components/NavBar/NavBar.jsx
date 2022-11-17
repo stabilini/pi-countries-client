@@ -1,11 +1,15 @@
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+
 import { getCountries } from '../../redux/actions';
-import { useDispatch } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+
+import logo from '../../assets/logo-globe.png';
+import SelectTheme from '../SelectTheme/SelectTheme';
+import Button from '../Button/Button';
+import Input from '../Input/Input';
 
 import styles from './NavBar.module.css';
-import logo from './globe.png';
 
 function NavBar() {
   const useQuery = () => new URLSearchParams(useLocation().search);
@@ -13,28 +17,19 @@ function NavBar() {
   const name = query.get('name');
 
   const [input, setInput] = useState('');
-  //if (name) setInput(name);
+  
+  const theme = useSelector(state => state.theme);
 
   const dispatch = useDispatch();
 
-  const manejarCambio = e => {
+  const handleInputChange = e => {
     setInput(e.target.value);
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-    //conviene usar el siguiente dispatch, pero el PI pide que se use la ruta con query
+    //no conviene usar el siguiente dispatch porque llama al back, pero el readme del PI pide que se use la ruta con query
     dispatch(getCountries(input));
-
-    // setInput('');
-  };
-
-  const useEnter = e => {
-    if (e.keyCode === 13) {
-      e.preventDefault();
-      dispatch(getCountries(input));
-      // setInput('');
-    }
   };
 
   useEffect(() => {
@@ -42,32 +37,26 @@ function NavBar() {
   }, [name]);
 
   return (
-    <div className={ styles.container }>
+    <div className={ `${styles.container} ${styles[theme]}` }>
       <div className={ styles.logoContainer }>
         <img src={logo} alt='logo' className={ styles.logo }/>
       </div>
-      <div className={ styles.center }>
-        <div className={ styles.subcenter }>
-          <input
-            type="text"
+      <div className={ styles.centerContainer }>
+        <div className={ styles.center }>
+          <Input
+            label=''
+            type='text'
+            name='name'
             placeholder="Type text..."
-            size="10"
-            onChange={manejarCambio}
             value={input}
-            onKeyUp={useEnter}
-          />
-          <button onClick={handleSubmit}>
-            Search
-          </button>
+            onChange={handleInputChange} />
+          <Button text='Search' onClick={handleSubmit} />
         </div>
-          <Link to="/newactivity">
-            <button>Create activity</button>
-          </Link>
+          <Button link='/newactivity' text='Create activity' />
       </div>
-      <div className={ styles.exit }>
-        <Link to="/">
-          <button>Exit</button>
-        </Link>
+      <div className={ styles.exitContainer }>
+        <SelectTheme />
+        <Button link='/' text='Exit' />
       </div>
     </div>
   );

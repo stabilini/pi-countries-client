@@ -2,7 +2,9 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCountries } from '../../redux/actions';
 import { useLocation } from 'react-router-dom';
-import Country from '../Country/Country';
+
+import Country from '../Country/Country.jsx';
+
 import styles from './Countries.module.css';
 
 const Countries = () => {
@@ -11,24 +13,33 @@ const Countries = () => {
   const name = query.get('name');
 
   const dispatch = useDispatch();
+  
   const countries = useSelector(state => state.countries);
   const continents = useSelector(state => state.filterContinent);
   const activities = useSelector(state => state.filterActivity);
-  //const filtered = countryes.filter(country => country.c_visible && country.a_visible);
+  const order = useSelector(state => state.order);
+  const theme = useSelector(state => state.theme);
+
   let keys_c = Object.keys(continents).filter(k => continents[k] === true)
   let keys_a = Object.keys(activities).filter(k => activities[k] === true)
-  //(c => keys_c.includes(c.continent) ? {...c, c_visible: true} : {...c, c_visible: false})
-  const filtered = countries.filter(c => keys_c.includes(c.continent) && c.activities.some(obj => keys_a.includes(obj.name)))
-  const page = useSelector(state => state.page);
 
+  let filtered = countries.filter(c => keys_c.includes(c.continent) && c.activities.some(obj => keys_a.includes(obj.name)))
+
+  if (Object.keys(order)[0] === 'asc') {
+    filtered = filtered.slice().sort((a, b) => a[order.asc] > b[order.asc] ? 1 : -1);
+  } else if (Object.keys(order)[0] === 'desc' ){
+    filtered = filtered.slice().sort((a, b) => a[order.desc] < b[order.desc] ? 1 : -1);
+  } 
+  
+  const page = useSelector(state => state.page);
 
   useEffect(() => {
     dispatch(getCountries(name));
-    
   }, [dispatch, name]);
 
   return (
-    <div className={ styles.countriesContainer }>
+    <div className={ `${styles.container} ${styles[theme]} ${
+      (page === 1 ? styles.container09 : styles.container10)}` }>
       {filtered.length > 0 ? (
         filtered
           .map((country, i) => {
@@ -48,7 +59,7 @@ const Countries = () => {
             );
           })
       ) : (
-        <h2>Sin resultados</h2>
+        <h3 className={ `${styles.noResult} ${styles[theme]}` }>No results for given search options</h3>
       )}
     </div>
   );

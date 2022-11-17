@@ -5,10 +5,12 @@ import {
   CREATE_ACTIVITY,
   COUNTRIES_ORDER_ASC,
   COUNTRIES_ORDER_DES,
+  COUNTRIES_ORDER_RANDOM,
   COUNTRIES_FILTER_CONTINENT,
   COUNTRIES_FILTER_ACTIVITY,
   SET_PAGE_VIEW,
-  FILTER_ACTIVITY
+  FILTER_ACTIVITY,
+  SET_THEME
   } from '../actions';
 
 const initialState = {
@@ -26,6 +28,8 @@ const initialState = {
     'North America': true,
   },
   page: 1,
+  order: { asc: 'name'},
+  theme: 'Light'
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -58,29 +62,40 @@ const rootReducer = (state = initialState, action) => {
     case COUNTRIES_ORDER_ASC:
       return {
         ...state,
-        countries: state.countries.slice().sort((a, b) => a[action.payload] > b[action.payload] ? 1 : -1)
+        order: {asc: action.payload},
       }
     case COUNTRIES_ORDER_DES:
       return {
         ...state,
-        countries: state.countries.slice().sort((a, b) => a[action.payload] < b[action.payload] ? 1 : -1)
+        order: {desc: action.payload},
+      }
+    case COUNTRIES_ORDER_RANDOM:
+      return {
+        ...state,
+        order: { },
+        countries: state.countries.slice().sort(() => Math.random() - 0.5),
       }
     case COUNTRIES_FILTER_CONTINENT:
-      let keys_c = Object.keys(action.payload).filter(k => action.payload[k] === true)
       return {
         ...state,
-        countries: state.countries.map(c => keys_c.includes(c.continent) ? {...c, c_visible: true} : {...c, c_visible: false})
+        countries: state.countries.map(c => c),
+        filterContinent: action.payload
       }
     case COUNTRIES_FILTER_ACTIVITY:
-      let keys_a = Object.keys(action.payload).filter(k => action.payload[k] === true)
       return {
         ...state,
-       countries: state.countries.map(c => c.activities.some(obj => keys_a.includes(obj.name)) ? {...c, a_visible: true} : {...c, a_visible: false})
+       countries: state.countries.map(c => c),
+       filterActivity: action.payload
       }
     case SET_PAGE_VIEW:
       return {
         ...state,
         page: Number(action.payload)
+      }
+    case SET_THEME:
+      return {
+        ...state,
+        theme: action.payload
       }
     default:
       return state;
