@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { getDetail } from '../../redux/actions';
 
 import Button from '../Button/Button';
-import LoadingSpinner from '../LoadingSpinner/LoadingSpinner.jsx';
+// import LoadingSpinner from '../LoadingSpinner/LoadingSpinner.jsx';
 
 
 import styles from './Detail.module.css';
@@ -17,7 +17,7 @@ const Detail = () => {
   const dispatch = useDispatch();
   const detail = useSelector(state => state.detail)[0];
   let theme = useSelector(state => state.theme);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
   // useEffect(() => {
   //   setIsLoading(true);
@@ -31,9 +31,9 @@ const Detail = () => {
   }, [id, dispatch]);
 
   return (
-    <>
-      {
-        isLoading ? <LoadingSpinner /> :
+    // <>
+    //   {
+    //     isLoading ? <LoadingSpinner /> :
         <>
       <div className={ `${styles.detailBackground} ${styles[theme]}` }></div>
       <div className={ styles.container }>
@@ -106,8 +106,8 @@ const Detail = () => {
         </span>
       </div>
       </>
-}
-    </>
+    //   }
+    // </>
   );
 };
 
