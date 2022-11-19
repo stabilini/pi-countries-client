@@ -16,8 +16,10 @@ import {
 const initialState = {
   countries: [],
   detail: {},
-  // activities: [],
-  filterActivity: {},
+  activity: {},
+  filterActivity: {
+    'No activities': true
+  },
   filterContinent: {
     Africa: true,
     Antarctica: true,
@@ -44,20 +46,15 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         detail: action.payload,
       }
-    case GET_ACTIVITIES:
-      return {
-        ...state,
-        activities: action.payload,
-      }
     case CREATE_ACTIVITY:
       return {
         ...state,
-        activities: [...state.activities, action.payload],
+        activity: action.payload,
       }
     case FILTER_ACTIVITY:
       return {
         ...state,
-        filterActivity: action.payload,
+        filterActivity: {...state.filterActivity, ...action.payload}
       }
     case COUNTRIES_ORDER_ASC:
       return {
