@@ -1,18 +1,11 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getCountries } from '../../redux/actions';
-import { useLocation } from 'react-router-dom';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
 import Country from '../Country/Country.jsx';
 
 import styles from './Countries.module.css';
 
 const Countries = () => {
-  const useQuery = () => new URLSearchParams(useLocation().search);
-  const query = useQuery();
-  const name = query.get('name');
-
-  const dispatch = useDispatch();
   
   const countries = useSelector(state => state.countries);
   const continents = useSelector(state => state.filterContinent);
@@ -32,10 +25,6 @@ const Countries = () => {
   } 
   
   const page = useSelector(state => state.page);
-
-  useEffect(() => {
-    dispatch(getCountries(name));
-  }, [dispatch, name]);
 
   return (
     <div className={ `${styles.container} ${styles[theme]} ${
