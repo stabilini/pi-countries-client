@@ -12,7 +12,7 @@ export const COUNTRIES_FILTER_CONTINENT = 'COUNTRIES_FILTER_CONTINENT';
 export const COUNTRIES_FILTER_ACTIVITY = 'COUNTRIES_FILTER_ACTIVITY';
 export const SET_THEME = 'SET_THEME';
 
-export const URL = 'http://localhost:3001/';
+export const URL = 'https://tasty-button-bull.cyclic.app/';
 
 export const getCountries = (name) => {
   return function(dispatch) {
