@@ -1,8 +1,8 @@
-// import allCountries from './allCountries.json';
-
 export const GET_COUNTRIES = 'GET_COUNTRIES';
 export const GET_DETAIL = 'GET_DETAIL';
+export const CLEAN_DETAIL = 'CLEAN_DETAIL';
 export const CREATE_ACTIVITY = 'CREATE_ACTIVITY';
+export const CLEAN_ACTIVITY = 'CLEAN_ACTIVITY';
 export const SET_PAGE_VIEW = 'SET_PAGE_VIEW';
 export const FILTER_ACTIVITY = 'FILTER_ACTIVITY';
 export const COUNTRIES_ORDER_ASC = 'COUNTRIES_ORDER_ASC';
@@ -11,67 +11,57 @@ export const COUNTRIES_ORDER_RANDOM = 'COUNTRIES_ORDER_RANDOM';
 export const COUNTRIES_FILTER_CONTINENT = 'COUNTRIES_FILTER_CONTINENT';
 export const COUNTRIES_FILTER_ACTIVITY = 'COUNTRIES_FILTER_ACTIVITY';
 export const SET_THEME = 'SET_THEME';
+export const SET_ERROR = 'SET_ERROR';
+export const SET_LOADING = 'SET_LOADING';
 
 export const URL = 'https://tasty-button-bull.cyclic.app/';
 
 export const getCountries = (name) => {
   return function(dispatch) {
     return fetch(name ? URL + 'countries?name=' + name : URL + 'countries')
-      // .then(() => {
-      //     let result = allCountries.map(c => ({
-      //       id: c.cca3,
-      //       name: c.name.common,
-      //       flag: c.flags.png,
-      //       continent: c.continents[0],
-      //       capital: c.capital ? c.capital[0] : 'n/d',
-      //       subregion: c.subregion ? c.subregion : 'n/d',
-      //       area: c.area >= 0 ? c.area : 0,
-      //       population: c.population >= 0 ? c.population : 0,
-      //       activities: []
-      //     }))
-      //     result[0].activities = [{ name: "Golf" }, { name: "Paseo"}]
-      //     result[1].activities = [{ name: "Golf" }]
-      //     result[2].activities = [{ name: "Paseo"}]
-      //     if (name) return result.filter(f => f.name.includes(name));
-      //     return result;
-      //   })
       .then(res => res.json())
-      .then(obj => obj.map(v => v.activities.length === 0 ? {...v, activities: [{name: 'No activities'}]} : {...v}))
-      .then(obj => dispatch({type: GET_COUNTRIES, payload: obj}))
-      .catch(error => console.log(error))
+      .then(obj => obj.status === 'ok' ?
+                    dispatch({type: GET_COUNTRIES, payload: obj.data.map(v => v.activities.length === 0 ? {...v, activities: [{name: 'No activities'}]} : {...v})})
+                    :
+                    dispatch({type: SET_ERROR, payload: obj.msg})
+      )
+      .catch(error => dispatch({type: SET_ERROR, payload: error.msg}))
   }
 };
 
 export const getDetail = (id) => {
   return function(dispatch) {
     return fetch(URL + 'countries/' + id)
-      // .then(() => {
-      //   let result = allCountries.map(c => ({
-      //     id: c.cca3,
-      //     name: c.name.common,
-      //     flag: c.flags.png,
-      //     continent: c.continents[0],
-      //     capital: c.capital ? c.capital[0] : 'n/d',
-      //     subregion: c.subregion ? c.subregion : 'n/d',
-      //     area: c.area >= 0 ? c.area : 0,
-      //     population: c.population >= 0 ? c.population : 0,
-      //     activities: []
-      //   }))
-      //   result[0].activities = [{ name: "Golf" }, { name: "Paseo"}]
-      //   result[1].activities = [{ name: "Golf" }]
-      //   result[2].activities = [{ name: "Paseo"}]
-      //   return result.filter(f => f.id === id);
-      // })
       .then(res => res.json())
-      .then(obj => dispatch({type: GET_DETAIL, payload: obj}))
+      .then(obj => obj.status === 'ok' ?
+                    dispatch({type: GET_DETAIL, payload: obj.data})
+                    :
+                    dispatch({type: SET_ERROR, payload: obj.msg})
+      )
+      .catch(error => dispatch({type: SET_ERROR, payload: error.msg}))
   }
 }
+
+export const cleanDetail = () => {
+  return function(dispatch) {
+    return dispatch({
+      type: CLEAN_DETAIL,
+      payload: {}
+    })
+  }
+}
+
 
 export const getFilterActivities = () => {
   return function(dispatch) {
     return fetch(URL + 'activities')
       .then(res => res.json())
-      .then(obj => dispatch({type: FILTER_ACTIVITY, payload: obj}))
+      .then(obj => obj.status === 'ok' ?
+                    dispatch({type: FILTER_ACTIVITY, payload: obj.data})
+                    :
+                    dispatch({type: SET_ERROR, payload: obj.msg})
+      )
+      .catch(error => dispatch({type: SET_ERROR, payload: error.msg}))
   }
 }
 
@@ -83,8 +73,21 @@ export const createActivity = (payload) => {
                   headers: {'Content-type': 'application/json; charset=UTF-8'}
                 })
       .then(res => res.json())
-      .then(obj => dispatch({type: CREATE_ACTIVITY, payload: obj}))
-      .catch(error => console.log(error))
+      .then(obj => obj.status === 'ok' ?
+                    dispatch({type: SET_LOADING, payload: false})
+                    :       
+                    dispatch({type: SET_ERROR, payload: obj.msg})
+      )
+      .catch(error => dispatch({type: SET_ERROR, payload: error.msg}))
+  }
+}
+
+export const cleanActivity = () => {
+  return function(dispatch) {
+    return dispatch({
+      type: CLEAN_ACTIVITY,
+      payload: {}
+    })
   }
 }
 
@@ -139,6 +142,24 @@ export const setTheme = (theme) => {
     return dispatch({
       type: SET_THEME,
       payload: theme
+    })
+  }
+}
+
+export const cleanError = () => {
+  return function(dispatch) {
+    return dispatch({
+      type: SET_ERROR,
+      payload: ''
+    })
+  }
+}
+
+export const setLoading = (state) => {
+  return function(dispatch) {
+    return dispatch({
+      type: SET_LOADING,
+      payload: state
     })
   }
 }
