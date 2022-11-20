@@ -49,7 +49,7 @@ const CreateActivity = () => {
   const error = useSelector(state => state.error);
   const theme = useSelector(state => state.theme);
   const loading = useSelector(state => state.loading);
-  const activity = useSelector(state => state.activity)
+  // const activity = useSelector(state => state.activity)
 
   const handleInputChange = e => {
     setInput({
